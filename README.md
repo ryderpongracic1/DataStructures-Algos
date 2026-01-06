@@ -3,9 +3,6 @@
 A collection of my LeetCode problem solutions, automatically tracked and organized.
 
 
-```bash
-python3 generate_readme.py
-```
 
 ### 📌 Repository Structure
 
