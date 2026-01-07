@@ -5,18 +5,16 @@ class Solution(object):
         :rtype: str
         """
         vowels = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}
+        s = list(s)
 
-        seenVowels = []
-        for i in range(len(s)):
-            if s[i] in vowels:
-                seenVowels.append(s[i])
-
-        ans = ''
-        counter = -1
-        for i in range(len(s)):
-            if s[i] in vowels:
-                ans += seenVowels[counter]
-                counter -= 1
-            else:
-                ans += s[i]
-        return ans
+        left = 0
+        right = len(s) - 1
+        while left < right:
+            while left < right and s[left] not in vowels:
+                left += 1
+            while left < right and s[right] not in vowels:
+                right -= 1
+            s[left], s[right] = s[right], s[left]
+            left += 1
+            right -= 1
+        return ''.join(s)
