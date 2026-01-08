@@ -4,10 +4,10 @@ class Solution(object):
         :type nums: List[int]
         :rtype: None Do not return anything, modify nums in-place instead.
         """
-        right = 0
-        for left in range(len(nums)):
-            if nums[left] != 0:
-                nums[left], nums[right] = nums[right], nums[left]
-                right += 1
+        left = 0
+        for right in range(len(nums)):
+            if nums[right] != 0:
+                nums[right], nums[left] = nums[left], nums[right]
+                left += 1
             # print(i, nums)
                     
