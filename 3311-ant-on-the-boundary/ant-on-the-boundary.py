@@ -1,9 +1,9 @@
 class Solution:
     def returnToBoundaryCount(self, nums: List[int]) -> int:
-        total = nums[0]
+        curr = 0
         count = 0
-        for i in range(1, len(nums)):
-            total += nums[i]
-            if total == 0:
+        for num in nums:
+            curr += num
+            if curr == 0:
                 count += 1
         return count 
