@@ -1,12 +1,5 @@
-class Solution(object):
-    def canPlaceFlowers(self, flowerbed, n):
-        """
-        :type flowerbed: List[int]
-        :type n: int
-        :rtype: bool
-        """
-        if n == 0:
-            return True
+class Solution:
+    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
         for i in range(len(flowerbed)):
             left = False
             right = False
@@ -18,6 +11,4 @@ class Solution(object):
                 if left and right:
                     flowerbed[i] = 1
                     n -= 1
-            if n <= 0:
-                return True
-        return False
+        return n <= 0
