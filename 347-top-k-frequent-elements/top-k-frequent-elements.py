@@ -11,10 +11,10 @@ class Solution:
 
         heap = []
         for num, freq in elements.items():
-            if len(heap) < k: # First k elements
-                heapq.heappush(heap, (freq, num))
-            else: # Only keep k greatest
-                heapq.heappushpop(heap,(freq, num))
+            # Add elements to heap to keep greatest
+            heapq.heappush(heap, (freq, num))
+            if len(heap) > k: # Only keep k greatest
+                heapq.heappop(heap)
         
         for freq, num in heap:
             ans.append(num)
