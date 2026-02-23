@@ -1,3 +1,4 @@
+import heapq
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         elements = {}
@@ -7,11 +8,14 @@ class Solution:
                 elements[num] = 1
             else:
                 elements[num] += 1
+
+        heap = []
+        for num, freq in elements.items():
+            if len(heap) < k: # First k elements
+                heapq.heappush(heap, (freq, num))
+            else: # Only keep k greatest
+                heapq.heappushpop(heap,(freq, num))
         
-        numbers = list(elements)
-        frequencies = list(elements.values())
-        sortedFrequencies = list(zip(frequencies, numbers))
-        sortedFrequencies.sort(reverse=True)
-        for i in range(k):
-            ans.append(sortedFrequencies[i][1])
+        for freq, num in heap:
+            ans.append(num)
         return ans
