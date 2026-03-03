@@ -13,17 +13,13 @@ class Solution:
         for right in range(len(s)):
             char = s[right]
             window[char] = window.get(char, 0) + 1
-            if window == pfreq: # anagram found
-                ans.append(left)
-                window[s[left]] -= 1
-                if window[s[left]] == 0:
-                    del window[s[left]]
+            if right - left + 1 > len(p): # Window is larger than p
+                remove = s[left]
+                window[remove] -= 1
+                if window[remove] == 0:
+                    del window[remove]
                 left += 1
-            else:
-                if right - left + 1 >= len(p):
-                    remove = s[left]
-                    window[remove] -= 1
-                    if window[remove] == 0:
-                        del window[remove]
-                    left += 1
+                
+            if window == pfreq:
+                ans.append(left)
         return ans
