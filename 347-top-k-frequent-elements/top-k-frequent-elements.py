@@ -1,17 +1,23 @@
 import heapq
-class Solution:
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        ans = [0] * k
-        freq = {}
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        hset = {}
         for num in nums:
-            freq[num] = freq.get(num, 0) + 1
+            hset[num] = hset.get(num, 0) + 1
 
         heap = []
-        for num, fr in freq.items():
-            heapq.heappush(heap, (fr, num))
-            if len(heap) > k:
+        for num, freq in hset.items():
+            if len(heap) < k:
+                heapq.heappush(heap, (freq, num))
+            else:
+                heapq.heappush(heap, (freq, num))
                 heapq.heappop(heap)
-
+        ans = [0] * k
         for i in range(k):
             ans[i] = heap[i][1]
         return ans
