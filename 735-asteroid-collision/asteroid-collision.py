@@ -6,17 +6,14 @@ class Solution(object):
         """
         stack = []
         for a in asteroids:
-            if not stack:
+            while stack and a < 0 and stack[-1] > 0:
+                if abs(stack[-1]) > abs(a):
+                    a = 0
+                elif abs(stack[-1]) < abs(a):
+                    stack.pop()
+                else: # equal
+                    a = 0
+                    stack.pop()
+            if a != 0:
                 stack.append(a)
-            else:
-                while stack and stack[-1] > 0 and a < 0:
-                    if abs(a) > abs(stack[-1]):
-                        stack.pop()
-                    elif abs(stack[-1]) == abs(a):
-                        stack.pop()
-                        a = 0
-                    else: # 
-                        a = 0
-                if a != 0:
-                    stack.append(a)
         return stack
