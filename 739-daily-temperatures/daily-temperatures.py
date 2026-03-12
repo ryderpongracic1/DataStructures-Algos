@@ -4,7 +4,7 @@ class Solution:
         ans = [0] * len(temperatures)
         for i in range(len(temperatures)):
             while stack and temperatures[i] > temperatures[stack[-1]]:
-                idx = stack.pop()
-                ans[idx] = i - idx
+                j = stack.pop()
+                ans[j] += i - j
             stack.append(i)
         return ans
