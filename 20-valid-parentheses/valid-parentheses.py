@@ -4,23 +4,12 @@ class Solution(object):
         :type s: str
         :rtype: bool
         """
-        closed = "]})"
+        matches = {']':'[', ')':'(', '}':'{'}
         stack = []
-        for char in s:
-            if char not in closed:
-                stack.append(char)
-            else:
-                if stack:
-                    openChar = stack.pop()
-                    if openChar == '{':
-                        if char != '}':
-                            return False
-                    elif openChar == '(':
-                        if char != ')':
-                            return False
-                    else:# openChar == '['
-                        if char != ']':
-                            return False
-                else:
+        for c in s:
+            if c in matches:
+                if not stack or matches[c] != stack.pop():
                     return False
-        return len(stack) == 0
+            else:
+                stack.append(c)
+        return not stack
