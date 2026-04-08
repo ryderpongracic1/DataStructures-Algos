@@ -1,11 +1,8 @@
 class Solution:
     def removeElement(self, nums: List[int], val: int) -> int:
-        n = len(nums)
-        count, left = 0, n - 1
-
-        for right in range(n - 1, -1, -1):
-            if nums[right] == val:
-                nums[left], nums[right] = nums[right], nums[left]
-                left -= 1
-        
-        return left + 1
+        idx = 0 # where next non-val goes / last spotted 2
+        for i in range(len(nums)):
+            if nums[i] != val: # i is a non-val -> place at last spotted 2
+                nums[idx] = nums[i]
+                idx += 1
+        return idx
