@@ -3,8 +3,7 @@ class Solution:
         ans = 0
         buy = prices[0]
         for price in prices[1:]:
-            if price < buy:
-                buy = price
+            buy = min(buy, price)
             ans = max(ans, price - buy)
 
         return ans
