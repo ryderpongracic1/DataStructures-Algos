@@ -10,7 +10,7 @@ class Solution:
             freq[char] += 1
             most = max(most, freq[char])
             
-            while right - left + 1 - most > k:
+            if right - left + 1 - most > k:
                 remove = s[left]
                 freq[remove] -= 1
                 left += 1
