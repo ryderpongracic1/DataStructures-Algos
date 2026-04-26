@@ -4,17 +4,21 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+# Longest path through a node is left subtree height + right subtree height
+# Find longest path through every node & keep global max
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         self.diameter = 0
 
-        def dfs(node):
+        def height(node):
             if not node:
                 return 0
-            left = dfs(node.left)
-            right = dfs(node.right)
-            self.diameter = max(self.diameter, left + right)
+            left = height(node.left)
+            right = height(node.right)
+            diameter = left + right
+            self.diameter = max(self.diameter, diameter)
             return 1 + max(left, right)
-        
-        dfs(root)
+            
+        height(root)
         return self.diameter
