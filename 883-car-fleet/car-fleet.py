@@ -1,15 +1,15 @@
 class Solution:
     def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
         cars = list(zip(position, speed))
-        cars.sort(reverse=True) # start with closest to target
-        stack = [] # finish times
+        cars.sort(reverse=True)
+        stack = []
 
         for pos, vel in cars:
-            finish_time = (target - pos) / vel
+            hours_to_finish = (target - pos) / vel
 
-            # faster/equal finish time would join same fleet
-            # larger finish_time means slower fleet
-            if not stack or finish_time > stack[-1]:
-                stack.append(finish_time)
-
+            # Car makes new fleet if finishes slower
+            if not stack or hours_to_finish > stack[-1]:
+                stack.append(hours_to_finish)
+            # if hours_to_finish <= car infront it joins their fleet at their speed
+        
         return len(stack)
