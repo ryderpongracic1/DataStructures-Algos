@@ -1,21 +1,21 @@
 import heapq
 class Solution:
     def findMaximizedCapital(self, k: int, w: int, profits: List[int], capital: List[int]) -> int:
-        max_heap = [] # -profit of startable projects
-        projects = sorted(list(zip(capital, profits)))
+        max_heap = []
+        projects = sorted(zip(capital, profits))
 
-        i = 0
-        counter = 0 # projects chosen
-        while counter < k:
-            while i < len(projects):
-                c, p = projects[i]
-                if w < c:
-                    break
-                heapq.heappush(max_heap, -p)
+        i = 0 # projects idx
+        for _ in range(k):
+            # more projects & can afford them
+            while i < len(projects) and w >= projects[i][0]:
+                # add profit to avaiable projects
+                heapq.heappush(max_heap, -projects[i][1])
                 i += 1
+
+            # can't afford any projects
             if not max_heap:
                 break
-            p = -heapq.heappop(max_heap)
-            w += p
-            counter += 1
+
+            # add profit of best project
+            w += -heapq.heappop(max_heap)
         return w
