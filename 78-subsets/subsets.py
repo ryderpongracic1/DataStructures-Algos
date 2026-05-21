@@ -4,12 +4,10 @@ class Solution:
 
         # explore decision tree
         def dfs(subset, idx):
-            if idx == len(nums): # reached decision tree leaf node
-                res.append(subset[:])
-            elif idx < len(nums):
-                dfs(subset, idx + 1) # exclude current num & explore
-                subset.append(nums[idx]) # include current num
-                dfs(subset, idx + 1) # explore inclusion branch
+            res.append(subset[:])
+            for i in range(idx, len(nums)):
+                subset.append(nums[i]) # include current num
+                dfs(subset, i + 1) # explore branch
                 subset.pop() # backtrack
         dfs([], 0)
         return res
