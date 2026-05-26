@@ -1,29 +1,15 @@
-class Solution(object):
-    def permute(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
-        ans = []
-        visited = [False] * len(nums)
-        def backtrack(curr):
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+
+        def dfs(curr):
             if len(curr) == len(nums):
-                ans.append(curr[:])
-                return
-            for i in range(len(nums)):
-                # Already in curr
-                if visited[i]:
+                res.append(curr[:])
+            for num in nums:
+                if num in curr:
                     continue
-                
-                # Choose i to add
-                visited[i] = True
-                curr.append(nums[i])
-
-                # Explore
-                backtrack(curr)
-
-                # Backtrack: remove from curr and mark not seen
-                visited[i] = False
+                curr.append(num)
+                dfs(curr)
                 curr.pop()
-        backtrack([])
-        return ans
+        dfs([])
+        return res
