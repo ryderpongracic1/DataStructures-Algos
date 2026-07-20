@@ -1,18 +1,39 @@
 class Solution:
     def findMinDifference(self, timePoints: List[str]) -> int:
-        # convert 'HH:MM' to minutes past 00:00
-        for i in range(len(timePoints)):
-            hour, minute = int(timePoints[i][:2]), int(timePoints[i][3:])
-            timePoints[i] = (hour * 60) + minute
+        # pigeon-hole
+        if len(timePoints) > (24 * 60):
+            return 0
 
-        timePoints.sort() # sort so the min diff is adjacent
+        # buckets
+        seen = [False] * (24 * 60)
+
+        for t in timePoints:
+            minutes = int(t[:2]) * 60 + int(t[3:])
+            
+            # already seen means diff is 0
+            if seen[minutes]:
+                return 0
+
+            seen[minutes] = True
+
         res = float('inf')
+        first = prev = -1 # track for 
+        for minute, flag in enumerate(seen):
+            # skip times we haven't seen
+            if not flag:
+                continue
 
-        # bubble min diff
-        for i in range(1, len(timePoints)):
-            diff = timePoints[i] - timePoints[i - 1]
-            res = min(res, diff)
+            # only triggers once & saves first time seen
+            if prev == -1:
+                first = minute
+            # bubbles min time
+            else:
+                res = min(res, minute - prev)
 
-        # circular clock diff = (minutes in day - end time) + first time
-        res = min(res, (24 * 60) - timePoints[-1] + timePoints[0])
+            # save prev as valid time
+            prev = minute
+
+        # check loop
+        res = min(res, ((24 * 60) - prev) + first)
+
         return res
