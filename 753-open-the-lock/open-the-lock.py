@@ -1,29 +1,29 @@
-# Graph shortest path — BFS
-# Start from '0000' and expand to ans
-# Only queue safe combinations
+# BFS for shortest path
+from collections import deque
 class Solution:
     def openLock(self, deadends: List[str], target: str) -> int:
         deadends = set(deadends)
         if '0000' in deadends:
             return -1
         deadends.add('0000')
-        queue = collections.deque([('0000', 0)])
+
+        queue = deque([('0000', 0)]) # lock, steps taken
+        # Don't go back to start point
 
         while queue:
-            lock, count = queue.popleft()
+            lock, steps = queue.popleft()
             if lock == target:
-                return count
+                return steps
+            for i in range(4):
+                digit = (int(lock[i]) + 1) % 10
+                new_lock = lock[:i] + str(digit) + lock[i + 1:]
+                if new_lock not in deadends:
+                    queue.append((new_lock, steps + 1))
+                    deadends.add(new_lock) # Don't retrace steps
 
-            for i in range(len(lock)):
-                digit = str((int(lock[i]) + 1) % 10)
-                newLock = lock[:i] + digit + lock[i + 1:]
-                if newLock not in deadends:
-                    queue.append((newLock, count + 1))
-                    deadends.add(newLock)
-
-                digit = str((int(lock[i]) - 1) % 10)
-                newLock = lock[:i] + digit + lock[i + 1:]
-                if newLock not in deadends:
-                    queue.append((newLock, count + 1))
-                    deadends.add(newLock)
+                digit = (int(lock[i]) - 1) % 10
+                new_lock = lock[:i] + str(digit) + lock[i + 1:]
+                if new_lock not in deadends:
+                    queue.append((new_lock, steps + 1))
+                    deadends.add(new_lock)
         return -1
