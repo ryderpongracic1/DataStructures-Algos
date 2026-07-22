@@ -1,39 +1,22 @@
 class Solution:
     def findMinDifference(self, timePoints: List[str]) -> int:
-        # pigeon-hole
-        if len(timePoints) > (24 * 60):
-            return 0
+        def time_to_mins(time):
+            hour, minute = time.split(':')
+            return (int(hour) * 60) + int(minute)
 
-        # buckets
-        seen = [False] * (24 * 60)
+        
+        for i, time in enumerate(timePoints):
+            timePoints[i] = time_to_mins(time)
 
-        for t in timePoints:
-            minutes = int(t[:2]) * 60 + int(t[3:])
-            
-            # already seen means diff is 0
-            if seen[minutes]:
-                return 0
+        timePoints.sort()
+        res = (24 * 60) + 1
+        prev = timePoints[0]
 
-            seen[minutes] = True
-
-        res = float('inf')
-        first = prev = -1 # track for 
-        for minute, flag in enumerate(seen):
-            # skip times we haven't seen
-            if not flag:
-                continue
-
-            # only triggers once & saves first time seen
-            if prev == -1:
-                first = minute
-            # bubbles min time
-            else:
-                res = min(res, minute - prev)
-
-            # save prev as valid time
-            prev = minute
-
-        # check loop
-        res = min(res, ((24 * 60) - prev) + first)
-
+        for minutes in timePoints[1:]:
+            res = min(res, minutes - prev)
+            prev = minutes
+        
+        # rollover: (24 * 60) minutes in a day - latest time + earliest time
+        # 23:59 to 00:02 is 3 min diff: 1440 - 1439 + 2 = 3
+        res = min(res, (24 * 60) - timePoints[-1] + timePoints[0])
         return res
