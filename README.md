@@ -1,5 +1,3 @@
-# 🚀 LeetCode Solutions
-
 A collection of my LeetCode problem solutions, automatically tracked and organized.
 
 
