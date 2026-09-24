@@ -2,29 +2,27 @@ import random
 class RandomizedSet:
 
     def __init__(self):
+        self.cache = {} # val -> idx
         self.arr = [] # val
-        self.map = {} # val -> idx
 
     def insert(self, val: int) -> bool:
-        if val in self.map:
+        if val in self.cache:
             return False
-
         self.arr.append(val)
-        self.map[val] = len(self.arr) - 1
+        self.cache[val] = len(self.arr) - 1
         return True
 
     def remove(self, val: int) -> bool:
-        if val not in self.map:
+        if val not in self.cache:
             return False
 
-        idx = self.map[val]
+        idx = self.cache[val]
         last = self.arr[-1]
+        self.cache[last] = idx
         self.arr[idx] = last
-        self.map[last] = idx
 
-        del self.map[val]
         self.arr.pop()
-
+        del self.cache[val]
         return True
 
     def getRandom(self) -> int:
