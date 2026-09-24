@@ -4,7 +4,7 @@ class Spreadsheet:
         self.grid = [[0] * 26 for _ in range(rows)]
 
     def _parse_cell(self, cell):
-        col = ord('A') - ord(cell[0])
+        col = ord(cell[0]) - ord('A')
         row = int(cell[1:])
         return row - 1, col
 
