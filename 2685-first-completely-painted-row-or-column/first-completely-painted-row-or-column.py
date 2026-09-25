@@ -2,18 +2,19 @@ from collections import defaultdict
 class Solution:
     def firstCompleteIndex(self, arr: List[int], mat: List[List[int]]) -> int:
         m, n = len(mat), len(mat[0])
-        rowCount = [0] * m # row r -> how many cells in row r been painted
-        colCount = [0] * n # col c -> how many cells in col c been painted
+        rows, cols = {}, {} # val -> r, val -> c
 
-        coordMap = [0] * (m * n + 1) # val -> (r, c)
         for r in range(m):
             for c in range(n):
-                coordMap[mat[r][c]] = (r, c)
-        
+                rows[mat[r][c]] = r
+                cols[mat[r][c]] = c
+
+        r_count, c_count = defaultdict(int), defaultdict(int) # r -> count
         for i in range(len(arr)):
-            r, c = coordMap[arr[i]]
-            rowCount[r] += 1
-            colCount[c] += 1
-            print(r)
-            if rowCount[r] >= n or colCount[c] >= m:
+            num = arr[i]
+            row, col = rows[num], cols[num]
+            r_count[row] += 1
+            c_count[col] += 1
+            if r_count[row] == n or c_count[col] == m:
                 return i
+        
